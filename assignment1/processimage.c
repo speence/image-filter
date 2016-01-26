@@ -6,7 +6,7 @@ void processImage(int width, int height, RGB *image)
   // simple image "processing"
   int i = 0;  
   int start = image;
-  int end = image+(width*height);
+  int end = image+(width*height)*sizeof(RGB);
   RGB *topleft = image-width-1+i;
   RGB *top = image-width+i;
   RGB *topright = image-width+1+i;
@@ -17,9 +17,8 @@ void processImage(int width, int height, RGB *image)
   RGB *bottomright = image+width+1+i;  
   RGB *p = image+i;
   int current = image;
-  int meandiv = 9;
-  int mean;
-
+  int meandiv;
+  
   //top window variables
   int topleftred, topleftgreen, topleftblue;
   int topred, topgreen, topblue;
@@ -85,6 +84,7 @@ void processImage(int width, int height, RGB *image)
     rightred = 0;
     rightgreen = 0;
     rightblue = 0;
+    meandiv--;
   };
   void fetchBottomLeft() {
     bottomleftred = bottomleft->r;
@@ -109,22 +109,20 @@ void processImage(int width, int height, RGB *image)
     meandiv--;
   };
   void fetchBottomRight() {
-    bottomrightred = 0;
-    bottomrightgreen = 0;
-    bottomrightblue = 0;
+    bottomrightred = bottomright->r;
+    bottomrightgreen = bottomright->g;
+    bottomrightblue = bottomright->b;
   };
   void bottomRightZero() {
     bottomrightred = 0;
     bottomrightgreen = 0;
     bottomrightblue = 0;
+    meandiv--;
   };
-  void test() {
-    printf("%d %d", start, p);
-  }
-  for (i=0; i < 10; i++)
+  int k = 0;
+  for (k=0; k < width*height; k++)
     {
-      test();
-
+    meandiv = 9;
     if (current%(width-1) == 0){	//if we are on the right edge of the image
       rightZero();
       if(top<start){	//if we are on the top right corner of the image
@@ -187,6 +185,24 @@ void processImage(int width, int height, RGB *image)
       else{
         fetchBottomLeft();
       }
-    }
+    }/*
+    //calculating means
+    p->r=((topleftred+topred+toprightred+leftred+(p->r)+rightred+bottomleftred+bottomred+bottomrightred)/meandiv);
+    p->g = ((topleftgreen+topgreen+toprightgreen+leftgreen+(p->g)+rightgreen+bottomleftgreen+bottomgreen+bottomrightgreen)/meandiv);
+    p->b = ((topleftblue+topblue+toprightblue+leftblue+(p->b)+rightblue+bottomleftblue+bottomblue+bottomrightblue)/meandiv);
+    */
+    topright = topright + k;
+    top = top + k;
+    topleft = topleft + k;
+    left = left+k;
+    right = right + k;
+    bottomleft = bottomleft + k;
+    bottom = bottom + k;
+    bottomright = bottomright + k;
+    p = p + k;
+    current = current + k*sizeof(RGB);
   }
+  //should be the same
+  printf("%d\n", p->r);
+  printf("%d\n", topleftred);
 }
