@@ -35,37 +35,94 @@ void processImage(int width, int height, RGB *image)
     topleftred = topleft->r;
     topleftgreen = topleft->g;
     topleftblue = topleft->b;
-  } 
+  }; 
   void topLeftZero() {
     topleftred = 0;
     topleftgreen = 0;
     topleftblue = 0;
-  }
+    meandiv--;
+  };
   void fetchTop() {
     topred = top->r;
     topgreen = top->g;
     topblue = top->b;
-  }
+  };
   void topZero() {
     topred = 0;
     topgreen = 0;
     topblue = 0;
     meandiv--;
+  };
+  void fetchTopRight() {
+    toprightred = topright->r;
+    toprightgreen = topright->g;
+    toprightblue = topright->b;
+  };
+  void topRightZero() {
+    toprightred = 0;
+    toprightgreen = 0;
+    toprightblue = 0;
+    meandiv--;
+  };
+  void fetchLeft(){
+    leftred = left->r;
+    leftgreen = left->g;
+    leftblue = left->b;
+  };
+  void leftZero() {
+    leftred = 0;
+    leftgreen = 0;
+    leftblue = 0;
+    meandiv--;
+  }
+  void fetchRight() {
+    rightred = right->r;
+    rightgreen = right->g;
+    rightblue = right->b;
   }
   void rightZero() {
     rightred = 0;
     rightgreen = 0;
     rightblue = 0;
+  };
+  void fetchBottomLeft() {
+    bottomleftred = bottomleft->r;
+    bottomleftgreen = bottomleft->g;
+    bottomleftblue = bottomleft->b;
+  };
+  void bottomLeftZero() {
+    bottomleftred = 0;
+    bottomleftgreen = 0;
+    bottomleftblue = 0;
+    meandiv--;
+  };
+  void fetchBottom() {
+    bottomred = bottom->r;
+    bottomgreen = bottom->g;
+    bottomblue = bottom->b;
+  };
+  void bottomZero() {
+    bottomred = 0;
+    bottomgreen = 0;
+    bottomblue = 0;
+    meandiv--;
+  };
+  void fetchBottomRight() {
+    bottomrightred = 0;
+    bottomrightgreen = 0;
+    bottomrightblue = 0;
+  };
+  void BottomRightZero() {
+    bottomrightred = 0;
+    bottomrightgreen = 0;
+    bottomrightblue = 0;
+  };
+  void test() {
+    printf("Testing this function");
   }
-  void topRightZero() {
-    toprightred = 0;
-    toprightgreen = 0;
-    toprightblue = 0;
-  }
-  
-  for (i=0; i < width*height; i++)
+  for (i=0; i < 10; i++)
     {
-
+      test();
       /*top left window logic */
       if (topleft<start) { 
         topleftred = 0;
@@ -125,7 +182,6 @@ void processImage(int width, int height, RGB *image)
       }
     
     
-    
 	if (p%(width-1) == 0){	//if we are on the right edge of the image
 		rightZero();
 		if(top<start){	//if we are on the top right corner of the image
@@ -158,6 +214,7 @@ void processImage(int width, int height, RGB *image)
 		}	
 	}
 
+<<<<<<< HEAD
 	else if (p<(width)){	//if we are on the top edge of the image	
 		topZero();
 		if(topleft<start){	//if we are on the top left corner of image
@@ -190,4 +247,5 @@ void processImage(int width, int height, RGB *image)
 		}
 	}
     }
+  }
 }
