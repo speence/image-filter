@@ -7,6 +7,7 @@ void processImage(int width, int height, RGB *image)
   int i = 0;  
   int start = image;
   int end = image+(width*height)*sizeof(RGB);
+  //RGB *topleft = (RGB*)malloc(width*height*sizeof(RGB));
   RGB *topleft = image-width-1+i;
   RGB *top = image-width+i;
   RGB *topright = image-width+1+i;
@@ -122,6 +123,8 @@ void processImage(int width, int height, RGB *image)
   int k = 0;
   for (k=0; k < width*height; k++)
     {
+    p = image + k;
+    /*
     meandiv = 9;
     if (current%(width-1) == 0){	//if we are on the right edge of the image
       rightZero();
@@ -191,6 +194,8 @@ void processImage(int width, int height, RGB *image)
     p->g = ((topleftgreen+topgreen+toprightgreen+leftgreen+(p->g)+rightgreen+bottomleftgreen+bottomgreen+bottomrightgreen)/meandiv);
     p->b = ((topleftblue+topblue+toprightblue+leftblue+(p->b)+rightblue+bottomleftblue+bottomblue+bottomrightblue)/meandiv);
     */
+    p->r = 0;
+    /*
     topright = topright + k;
     top = top + k;
     topleft = topleft + k;
@@ -200,9 +205,9 @@ void processImage(int width, int height, RGB *image)
     bottom = bottom + k;
     bottomright = bottomright + k;
     p = p + k;
-    current = current + k*sizeof(RGB);
+    current = current + k*sizeof(RGB);*/
   }
   //should be the same
-  printf("%d\n", p->r);
-  printf("%d\n", topleftred);
+  //printf("%d\n", p->r);
+  //printf("%d\n", topleftred);
 }
