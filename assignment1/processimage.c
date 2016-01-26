@@ -5,8 +5,8 @@ void processImage(int width, int height, RGB *image)
 {
   // simple image "processing"
   int i = 0;  
-  RGB *start = image;
-  RGB *end = image+(width*height);
+  int start = image;
+  int end = image+(width*height);
   RGB *topleft = image-width-1+i;
   RGB *top = image-width+i;
   RGB *topright = image-width+1+i;
@@ -16,6 +16,7 @@ void processImage(int width, int height, RGB *image)
   RGB *bottom = image+width+i;
   RGB *bottomright = image+width+1+i;  
   RGB *p = image+i;
+  int current = image;
   int meandiv = 9;
   int mean;
 
@@ -112,140 +113,80 @@ void processImage(int width, int height, RGB *image)
     bottomrightgreen = 0;
     bottomrightblue = 0;
   };
-  void BottomRightZero() {
+  void bottomRightZero() {
     bottomrightred = 0;
     bottomrightgreen = 0;
     bottomrightblue = 0;
   };
   void test() {
-    printf("Testing this function");
+    printf("%d %d", start, p);
   }
   for (i=0; i < 10; i++)
     {
       test();
-      /*top left window logic */
-      if (topleft<start) { 
-        topleftred = 0;
-        topleftgreen = 0;
-        topleftblue = 0;
-        meandiv--;
-        //printf("topleft didn't run ");
-      }else {
-        topleftred = topleft->r;
-        topleftgreen = topleft->g;
-        topleftblue = topleft->b;
-        //printf("topleft ran ");
-      }
-    /*top window logic */
-      if (top<start) { 
-        topred = 0;
-        topgreen = 0;
-        topblue = 0;
-        meandiv--;
-      }else {
-        topred = top->r;
-        topgreen = top->g;
-        topblue = top->b;
-      }
-      /*top right window logic */
-      if (topright<start) { 
-        toprightred = 0;
-        toprightgreen = 0;
-        toprightblue = 0;
-        meandiv--;
-      }else {
-        toprightred = topright->r;
-        toprightgreen = topright->g;
-        toprightblue = topright->b;
-      }
-      /*left window logic */
-      if (left<start) { 
-        leftred = 0;
-        leftgreen = 0;
-        leftblue = 0;
-        meandiv--;
-      }else {
-        leftred = left->r;
-        leftgreen = left->g;
-        leftblue = left->b;
-      }
-      /*right window logic */
-      if (topright<start) { 
-        toprightred = 0;
-        toprightgreen = 0;
-        toprightblue = 0;
-        meandiv--;
-      }else {
-        toprightred = topright->r;
-        toprightgreen = topright->g;
-        toprightblue = topright->b;
-      }
-    
-    
-	if (p%(width-1) == 0){	//if we are on the right edge of the image
-		rightZero();
-		if(top<start){	//if we are on the top right corner of the image
-			topRightZero();
-		}
-		else{
-			fetchTopRight();
-		}	
-		if(bottom>end){	//if we are ont he bottom right corner of the image
-			bottomRightZero();
-		}
-		else{
-			fetchBottomRight();
-		}		
-	}
 
-	else if (p%(width) == 0){	//if we are on the left edge of the image
-		leftZero();
-		if(top<start){	//if we are on the top left corner of the image
-			topLeftZero();
-		}
-		else{
-			fetchTopLeft();
-		}		
-		if(bottom>end){	//if we are on the bottom left corner of the image
-			bottomLeftZero();
-		}
-		else{
-			fetchBottomLeft();
-		}	
-	}
+    if (current%(width-1) == 0){	//if we are on the right edge of the image
+      rightZero();
+      if(top<start){	//if we are on the top right corner of the image
+        topRightZero();
+      }
+      else{
+        fetchTopRight();
+      }	
+      if(bottom>end){	//if we are ont he bottom right corner of the image
+        bottomRightZero();
+      }
+      else{
+        fetchBottomRight();
+      }		
+    }
 
-<<<<<<< HEAD
-	else if (p<(width)){	//if we are on the top edge of the image	
-		topZero();
-		if(topleft<start){	//if we are on the top left corner of image
-			topLeftZero();
-		}
-		else{
-			fetchTopLeft();
-		}
-		if(topright<start){	//if we are on the top right corner of image 
-			topRightZero();
-		}
-		else{
-			fetchTopRight();
-		}
-	}
+    else if (current%(width) == 0){	//if we are on the left edge of the image
+      leftZero();
+      if(top<start){	//if we are on the top left corner of the image
+        topLeftZero();
+      }
+      else{
+        fetchTopLeft();
+      }		
+      if(bottom>end){	//if we are on the bottom left corner of the image
+        bottomLeftZero();
+      }
+      else{
+        fetchBottomLeft();
+      }	
+    }
 
-	else if (p > ((width*height)-width)){	//if we are on the bottom edge of the image
-		bottomZero();
-		if(bottomright>end){	//if we are on the bottom right corner of image
-			bottomRightZero();
-		}
-		else{
-			fetchBottomRight();
-		}
-		if(bottomleft>end){	//if we are on the bottom left corner of image
-			bottomLeftZero();
-		}
-		else{
-			fetchBottomLeft();
-		}
-	}
+    else if (current<(width)){	//if we are on the top edge of the image	
+      topZero();
+      if(topleft<start){	//if we are on the top left corner of image
+        topLeftZero();
+      }
+      else{
+        fetchTopLeft();
+      }
+      if(topright<start){	//if we are on the top right corner of image 
+        topRightZero();
+      }
+      else{
+        fetchTopRight();
+      }
+    }
+
+    else if (current > ((width*height)-width)){	//if we are on the bottom edge of the image
+      bottomZero();
+      if(bottomright>end){	//if we are on the bottom right corner of image
+        bottomRightZero();
+      }
+      else{
+        fetchBottomRight();
+      }
+      if(bottomleft>end){	//if we are on the bottom left corner of image
+        bottomLeftZero();
+      }
+      else{
+        fetchBottomLeft();
+      }
     }
   }
 }
