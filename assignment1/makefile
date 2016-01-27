@@ -1,11 +1,8 @@
-CFLAGS=-g -O2 -Wall
+all: ppmf
 
-
-PROGRAM_NAME= ppmf
-OBJS = main.o readwriteppm.o processimage.o 
-
-$(PROGRAM_NAME): $(OBJS)
-	$(CC) -o $@ $? 
+ppmf: main.c readwriteppm.c processimage.c
+	mpicc -o ppmf main.c readwriteppm.c processimage.c
 
 clean:
-	rm  *.o $(PROGRAM_NAME) out.ppm out.jpeg
+	rm ppmf out.ppm out.jpeg *.o 
+

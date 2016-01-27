@@ -1,4 +1,6 @@
-
+#include "mpi.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "a1.h"
 
 void processImage(int width, int height, RGB *image)
@@ -7,6 +9,13 @@ void processImage(int width, int height, RGB *image)
   int i = 0;  
   int start = image;
   int end = image+(width*height)*sizeof(RGB);
+
+  //int numprocesses = argv[1];
+
+  /*
+  * Declaring the boxes in our 3x3 matrix 
+  */
+
   RGB *topleft = image-width-1+i;
   RGB *top = image-width+i;
   RGB *topright = image-width+1+i;
@@ -17,19 +26,26 @@ void processImage(int width, int height, RGB *image)
   RGB *bottomright = image+width+1+i;  
   RGB *p = image+i;
   int current = image;
-  int meandiv;
+  int meandiv, meanred, meangreen, meanblue;
   
-  //top window variables
+  //3x3 matrix top row variables
   int topleftred, topleftgreen, topleftblue;
   int topred, topgreen, topblue;
   int toprightred, toprightgreen, toprightblue;
-  //middle window variables
+  //3x3 matrix middle row variables
   int leftred, leftgreen, leftblue;
+  int centrered, centregreen, centreblue;
   int rightred, rightgreen, rightblue;
-  //bottom window variables
+  //3x3 matrix bottom row variables
   int bottomleftred, bottomleftgreen, bottomleftblue;
   int bottomred, bottomgreen, bottomblue;
   int bottomrightred, bottomrightgreen, bottomrightblue;
+
+  /*
+  * Functions that simplify the process of fetching RGB values for each pixel in our 
+  * 3x3 matrix and zeroing the pixels as well
+  */
+
   
   void fetchTopLeft() {
     topleftred = topleft->r;
@@ -119,9 +135,17 @@ void processImage(int width, int height, RGB *image)
     bottomrightblue = 0;
     meandiv--;
   };
+  void fetchCentre(){
+    centrered = p->r;
+    centregreen = p->g;
+    centreblue = p->b;
+  };
+
+  /*
   int k = 0;
   for (k=0; k < width*height; k++)
     {
+    fetchCentre();  //pull our centre pixel's RGB values
     meandiv = 9;
     if (current%(width-1) == 0){	//if we are on the right edge of the image
       rightZero();
@@ -185,13 +209,15 @@ void processImage(int width, int height, RGB *image)
       else{
         fetchBottomLeft();
       }
-    }/*
+    }
+    
     //calculating means
-    p->r=((topleftred+topred+toprightred+leftred+(p->r)+rightred+bottomleftred+bottomred+bottomrightred)/meandiv);
-    p->g = ((topleftgreen+topgreen+toprightgreen+leftgreen+(p->g)+rightgreen+bottomleftgreen+bottomgreen+bottomrightgreen)/meandiv);
-    p->b = ((topleftblue+topblue+toprightblue+leftblue+(p->b)+rightblue+bottomleftblue+bottomblue+bottomrightblue)/meandiv);
-    */
-    topright = topright + k;
+    meanred = ((topleftred+topred+toprightred+leftred+centrered+rightred+bottomleftred+bottomred+bottomrightred)/meandiv);
+    meangreen = ((topleftgreen+topgreen+toprightgreen+leftgreen+centregreen+rightgreen+bottomleftgreen+bottomgreen+bottomrightgreen)/meandiv);
+    meanblue = ((topleftblue+topblue+toprightblue+leftblue+centreblue+rightblue+bottomleftblue+bottomblue+bottomrightblue)/meandiv);
+    
+    //incrementing values for the next iteration
+    topright = topright + k;  
     top = top + k;
     topleft = topleft + k;
     left = left+k;
@@ -202,7 +228,9 @@ void processImage(int width, int height, RGB *image)
     p = p + k;
     current = current + k*sizeof(RGB);
   }
+  
   //should be the same
   printf("%d\n", p->r);
   printf("%d\n", topleftred);
+  */
 }
