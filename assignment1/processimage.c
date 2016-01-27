@@ -8,7 +8,7 @@ void processImage(int width, int height, RGB *image)
   int start = image;
   int end = image+(width*height)*sizeof(RGB);
   //RGB *topleft = (RGB*)malloc(width*height*sizeof(RGB));
-  RGB *topleft = image-width-1+i;
+  RGB *topleft = image-width-1;
   RGB *top = image-width+i;
   RGB *topright = image-width+1+i;
   RGB *left = image-1+i;
@@ -21,16 +21,16 @@ void processImage(int width, int height, RGB *image)
   int meandiv;
   
   //top window variables
-  int topleftred, topleftgreen, topleftblue;
-  int topred, topgreen, topblue;
-  int toprightred, toprightgreen, toprightblue;
+  RGB *topleftred, *topleftgreen, *topleftblue;
+  RGB *topred, *topgreen, *topblue;
+  RGB *toprightred, *toprightgreen, *toprightblue;
   //middle window variables
-  int leftred, leftgreen, leftblue;
-  int rightred, rightgreen, rightblue;
+  RGB *leftred, *leftgreen, *leftblue;
+  RGB *rightred, *rightgreen, *rightblue;
   //bottom window variables
-  int bottomleftred, bottomleftgreen, bottomleftblue;
-  int bottomred, bottomgreen, bottomblue;
-  int bottomrightred, bottomrightgreen, bottomrightblue;
+  RGB *bottomleftred, *bottomleftgreen, *bottomleftblue;
+  RGB *bottomred, *bottomgreen, *bottomblue;
+  RGB *bottomrightred, *bottomrightgreen, *bottomrightblue;
   
   void fetchTopLeft() {
     topleftred = topleft->r;
@@ -121,10 +121,19 @@ void processImage(int width, int height, RGB *image)
     meandiv--;
   };
   int k = 0;
-  for (k=0; k < width*height; k++)
+  for (k=width*10; k < width*height-10*width; k++)
     {
+    topleft = image-width-1+k;
+    top = image-width+k;
+    topright = image-width+1+k;
+    left = image-1+k;
+    right = image+1+k;
+    bottomleft = image+width-1+k;
+    bottom = image+width+k;
+    bottomright = image+width+1+k;  
     p = image + k;
-    /*
+    current = current + k*sizeof(RGB);
+    
     meandiv = 9;
     if (current%(width-1) == 0){	//if we are on the right edge of the image
       rightZero();
@@ -194,7 +203,13 @@ void processImage(int width, int height, RGB *image)
     p->g = ((topleftgreen+topgreen+toprightgreen+leftgreen+(p->g)+rightgreen+bottomleftgreen+bottomgreen+bottomrightgreen)/meandiv);
     p->b = ((topleftblue+topblue+toprightblue+leftblue+(p->b)+rightblue+bottomleftblue+bottomblue+bottomrightblue)/meandiv);
     */
-    p->r = 0;
+    //bottomZero();
+    //topLeftZero();
+    //printf("%d %d\n", p->r, topleftred->r);
+    //p->r=topleftred;
+    //printf("%d %d\n", p, topleft);
+    //int d = p - topleft;
+    //printf("%d\n", d);
     /*
     topright = topright + k;
     top = top + k;
