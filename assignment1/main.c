@@ -25,6 +25,7 @@ int main(int argc, char** argv[])
   }else{
     image = (RGB*)malloc(width*rows[rank]*sizeof(RGB));
   }
+  
   int i;
   for(i=0;i<p;i++){
     rows[i] = height/p;
