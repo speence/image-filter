@@ -21,9 +21,11 @@ void processImage(int width, int height, RGB *image) {
     int windowrow = -(N/2);
     int meandiv = N*N;
     int redmean = 0;
+    int greenmean = 0;
+    int bluemean = 0;
     for (i=0; i < N*N; i=i+N){ //constructs NxN filter window
       for (j=0; j < N; j++) {
-        window[i+j]= (image + k + (width*windowrow*sizeof(RGB)) - (N/2) + j);
+        window[i+j]= (image + k + (width*windowrow) - (N/2) + j);
       }
       windowrow++;
     }
@@ -95,9 +97,14 @@ void processImage(int width, int height, RGB *image) {
         meandiv = meandiv-N+1;
       }     
     }
-    //for (h=0; h < N*N; h++){
-      //redmean = (window[1]->r)+(window[2]->r);
-    //}
+    for (h=0; h < N*N; h++){
+      redmean = redmean + (window[h]->r);
+      greenmean = greenmean + (window[h]->g);
+      bluemean = bluemean + (window[h]->b);
+    }
+    p->r = redmean/meandiv;
+    p->g = greenmean/meandiv;
+    p->b = bluemean/meandiv;
   }
       for (h=0; h < N*N; h++){
         //window[h] = zero;

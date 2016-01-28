@@ -1,1 +1,1 @@
-mpirun -np 10 ./ppmf 4K-Ultra-HD.ppm out.ppm 3 M
+mpirun -np 10 ./ppmf t.ppm out.ppm 17 M
