@@ -16,6 +16,7 @@ void processImage(int width, int height, RGB *image) {
   int h;
   int u;
 
+
   for (k=0; k < width*height; k++) { //iterates over each pixel
     RGB *p = image + k;
     int windowrow = -(N/2);
