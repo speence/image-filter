@@ -1,1 +1,1 @@
-mpirun -np 10 ./ppmf t.ppm out.ppm 17 M
+mpirun -np 2 ./ppmf t.ppm out.ppm 5 M
