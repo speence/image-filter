@@ -1,1 +1,1 @@
-mpirun -np 13 ./ppmf t.ppm out.ppm 5 M
+mpirun -np 13 ./ppmf t.ppm output.ppm 5 M
