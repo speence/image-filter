@@ -21,7 +21,6 @@ int main(int argc, char** argv[])
 
   rows = (int*)malloc(sizeof(int)*p);
 
-
   int i;
   for(i=0;i<p;i++){
     rows[i] = width/p;
@@ -79,10 +78,11 @@ int main(int argc, char** argv[])
   MPI_Bcast(&width, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
   processImage(width, rows[rank]*sizeof(RGB), image);
-  printf("%d is done processing \n", rank);
+  // printf("%d is done processing \n", rank);
 
   //sending data back to process 0
   if(rank!=0){
+
     MPI_Send(output,
       rows[rank],
       MPI_CHAR,
@@ -91,9 +91,11 @@ int main(int argc, char** argv[])
       MPI_COMM_WORLD
       );
 
+  }else{
+
+    
     writePPM(argv[2], width, height, max, image);
 
-  }else{
     offset = 0;
     for(source = 1; source < p; source++){
       offset += rows[source-1];
