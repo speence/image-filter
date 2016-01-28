@@ -107,12 +107,6 @@ void processImage(int width, int height, RGB *image) {
     p->g = greenmean/meandiv;
     p->b = bluemean/meandiv;
   }
-      for (h=0; h < N*N; h++){
-        //window[h] = zero;
-        //printf("%d\n", window[2]->r+window[3]->r);
-        //fflush(stdout);
-      }//printf("%d %d\n", window[7]-window[0],window[14]-window[7]);
-
 }
              
              
